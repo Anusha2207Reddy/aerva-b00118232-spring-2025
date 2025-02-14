@@ -161,8 +161,6 @@ class LogisticRegression:
         y_predicted = sigmoid(linear_model)
         return (y_predicted >= 0.5).astype(int)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
@@ -176,12 +174,6 @@ print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
 print(classification_report(y_test, y_pred))
 
 from sklearn.svm import LinearSVC
-from sklearn.metrics import accuracy_score, classification_report
-from sklearn.model_selection import train_test_split
-
-
-# Split data into training and testing sets (80% train, 20% test)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Initialize and train SVM model
 svm_model = LinearSVC()
@@ -195,8 +187,6 @@ print(f"Accuracy: {accuracy_score(y_test, y_pred_svm)}")
 print(classification_report(y_test, y_pred_svm))
 
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, classification_report
-from sklearn.model_selection import train_test_split
 
 # Split data into training and testing sets (80% train, 20% test)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
