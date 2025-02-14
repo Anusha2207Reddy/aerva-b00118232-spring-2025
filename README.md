@@ -1,1 +1,1 @@
-
+I have implemented Logistic Regression using both sklearn and a manual implementation from scratch to compare their accuracy and performance. It gave me the same accuracy as naive bayes classifier which is 65%. Additionally, I have implemented Support Vector Machine (SVM) and Random Forest classifiers to further analyze model performance on the dataset. Each model has been evaluated based on accuracy and classification reports to determine their effectiveness in classification tasks. Random forest classifier performs better than support vector machine.
