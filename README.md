@@ -2,3 +2,4 @@ I have implemented Logistic Regression using both sklearn and a manual implement
 
 I had implemented multiple machine learning models for resume classification, including Naive Bayes, Logistic Regression, Support Vector Machine, and Random Forest. Now I used hyperparameter tuning for both the SVM and Random Forest models to optimize performance. I evaluated the model performance based on confusion matrix, classification report and visualizing the feature importance on each model. The SVM and Random Forest models were saved using joblib. I am now working on the Flask application to allow users to upload resumes and receive predictions based on the trained SVM model. BERT embeddings were used for feature extraction to enhance model performance.
 
+https://0x0.st/8MhP.csv
