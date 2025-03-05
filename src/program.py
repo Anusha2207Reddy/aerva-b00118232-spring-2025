@@ -195,6 +195,9 @@ plt.bar(range(10), svm_importances[svm_indices[:10]], align="center")
 plt.xticks(range(10), [tfidf_vectorizer.get_feature_names_out()[i] for i in svm_indices[:10]], rotation=45)
 plt.show()
 
+num_classes = df['Category'].nunique()
+print(f"Number of unique classes: {num_classes}")
+
 import joblib
 
 # Save the SVM model to a file
