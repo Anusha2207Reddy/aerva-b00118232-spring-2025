@@ -15,6 +15,7 @@ from sklearn.svm import LinearSVC
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 
+nlp = spacy.load("en_core_web_sm")
 
 # Download required NLTK data
 nltk.download('punkt')
@@ -198,54 +199,4 @@ plt.show()
 num_classes = df['Category'].nunique()
 print(f"Number of unique classes: {num_classes}")
 
-import joblib
-
-# Save the SVM model to a file
-joblib.dump(svm_model, 'svm_model.pkl')
-
-# Save the Random Forest model to a file
-joblib.dump(rf_model, 'rf_model.pkl')
-
-from flask import Flask, request, jsonify
-import torch
-from transformers import BertTokenizer, BertModel
-
-app = Flask(__name__)
-
-# Load pre-trained BERT model and tokenizer
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-bert_model = BertModel.from_pretrained('bert-base-uncased')
-
-# Load the trained SVM model
-svm_model = joblib.load('svm_model.pkl')
-
-# Function to preprocess and get BERT embeddings
-def preprocess_and_tokenize(text):
-    inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=512)
-    return inputs
-
-def get_bert_embeddings(texts):
-    embeddings = []
-    for text in texts:
-        inputs = preprocess_and_tokenize(text)
-        with torch.no_grad():
-            outputs = bert_model(**inputs)
-            embeddings.append(outputs.last_hidden_state[:, 0, :].numpy())
-    return np.vstack(embeddings)
-
-# Route for predicting the resume category
-@app.route('/predict', methods=['POST'])
-def predict():
-    file = request.files['resume']
-    resume_text = file.read().decode('utf-8')  # Assuming the resume is a plain text file
-    resume_embedding = get_bert_embeddings([resume_text])
-
-    # Get the prediction from the SVM model
-    prediction = svm_model.predict(resume_embedding)
-
-    # Return the predicted category
-    return jsonify({'category': prediction[0]})
-
-if __name__ == '__main__':
-    app.run(debug=True)
 
