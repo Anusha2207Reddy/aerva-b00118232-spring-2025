@@ -93,6 +93,16 @@ y_pred_nb = nb.predict(X_test)
 print(f"Naive Bayes Accuracy: {accuracy_score(y_test, y_pred_nb)}")
 print(classification_report(y_test, y_pred_nb))
 
+# Function to classify an individual resume
+def classify_resume(resume_text):
+    resume_tfidf = vectorizer.transform([resume_text])
+    prediction = clf.predict(resume_tfidf)
+    return prediction[0]
+
+example_resume = "Experienced software developer with skills in Python and machine learning."
+print("Predicted Category:", classify_resume(example_resume))
+
+
 #Logistic Regression
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
