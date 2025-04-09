@@ -6,6 +6,7 @@ from collections import defaultdict
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
+import spacy
 import re
 import nltk
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -92,16 +93,8 @@ nb.fit(X_train, y_train)
 y_pred_nb = nb.predict(X_test)
 print(f"Naive Bayes Accuracy: {accuracy_score(y_test, y_pred_nb)}")
 print(classification_report(y_test, y_pred_nb))
-
-# Function to classify an individual resume
-def classify_resume(resume_text):
-    resume_tfidf = vectorizer.transform([resume_text])
-    prediction = clf.predict(resume_tfidf)
-    return prediction[0]
-
-example_resume = "Experienced software developer with skills in Python and machine learning."
-print("Predicted Category:", classify_resume(example_resume))
-
+f1_nb = f1_score(y_test, y_pred_nb, average='weighted')
+print(f"Naive Bayes F1 Score: {f1_nb:.4f}")
 
 #Logistic Regression
 def sigmoid(z):
@@ -137,6 +130,8 @@ lr.fit(X_train, y_train)
 y_pred_lr = lr.predict(X_test)
 print(f"Logistic Regression Accuracy: {accuracy_score(y_test, y_pred_lr)}")
 print(classification_report(y_test, y_pred_lr))
+f1_lr = f1_score(y_test, y_pred_lr, average='weighted')
+print(f"Logistic Regression F1 Score: {f1_lr:.4f}")
 
 # 3. SVM with Hyperparameter Tuning
 svm_param_grid = {'C': [0.1, 1, 10, 100], 'max_iter': [1000, 2000]}
@@ -147,6 +142,8 @@ y_pred_svm = svm_model.predict(X_test)
 print(f"Best SVM Params: {svm_grid_search.best_params_}")
 print(f"SVM Accuracy: {accuracy_score(y_test, y_pred_svm)}")
 print(classification_report(y_test, y_pred_svm))
+f1_svm = f1_score(y_test, y_pred_svm, average='weighted')
+print(f"SVM F1 Score: {f1_svm:.4f}")
 
 # 4. Random Forest with Hyperparameter Tuning
 rf_param_grid = {'n_estimators': [100, 200, 300], 'max_depth': [10, 20, None], 'min_samples_split': [2, 5, 10]}
@@ -157,6 +154,8 @@ y_pred_rf = rf_model.predict(X_test)
 print(f"Best RF Params: {rf_grid_search.best_params_}")
 print(f"Random Forest Accuracy: {accuracy_score(y_test, y_pred_rf)}")
 print(classification_report(y_test, y_pred_rf))
+f1_rf = f1_score(y_test, y_pred_rf, average='weighted')
+print(f"Random Forest F1 Score: {f1_rf:.4f}")
 
 # Confusion Matrix
 plt.figure(figsize=(10,5))
@@ -209,4 +208,12 @@ plt.show()
 num_classes = df['Category'].nunique()
 print(f"Number of unique classes: {num_classes}")
 
+# Function to classify an individual resume
+def classify_resume(resume_text):
+    resume_tfidf = tfidf_vectorizer.transform([resume_text])
+    prediction = svm_model.predict(resume_tfidf)
+    return le.inverse_transform ([prediction[0]])[0]
+
+example_resume = "Experienced software developer with skills in Python and machine learning."
+print("Predicted Category:", classify_resume(example_resume))
 
