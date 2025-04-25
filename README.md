@@ -20,3 +20,5 @@ seaborn
 scikit-learn
 nltk
 spacy
+
+https://0x0.st/8MhP.csv
